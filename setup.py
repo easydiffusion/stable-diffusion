@@ -13,6 +13,7 @@ dependencies = [
     "open_clip_torch==2.0.2",
     "torchmetrics==0.6.0",
     "tqdm",
+    "huggingface-hub>=0.10.0",
 ]
 
 if platform.system() == 'Darwin':
