@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stable-diffusion-sdkit"
-version = "2.1.3"
+version = "2.1.4"
 description = "High-Resolution Image Synthesis with Latent Diffusion Models. This is a wrapper around the original repo, to allow installing via pip."
 readme = "README.md"
 requires-python = ">=3.8"
