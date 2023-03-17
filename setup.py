@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 if platform.system() == "Darwin":
-    dependencies += ["torch", "torchvision"]
+    dependencies += ["torch==1.13.1", "torchvision==0.14.1"]
 
 # On Windows and Linux, the user needs to install torch and torchvision manually, since the CUDA versions are not hosted on PyPI.
 # They need to run: pip install torch torchvision --extra-index-url https://download.pytorch.org/whl/cu116
