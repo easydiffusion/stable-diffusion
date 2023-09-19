@@ -8,7 +8,7 @@ dependencies = [
     "omegaconf==2.1.1",
     "test-tube>=0.7.5",
     "einops==0.3.0",
-    "transformers==4.26.1",
+    "transformers==4.33.2",
     "kornia==0.6",
     "open_clip_torch==2.0.2",
     "torchmetrics==0.6.0",
