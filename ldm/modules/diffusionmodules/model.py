@@ -9,9 +9,10 @@ from typing import Optional, Any
 from ldm.modules.attention import MemoryEfficientCrossAttention
 
 try:
+    import os
     import xformers
     import xformers.ops
-    XFORMERS_IS_AVAILBLE = True
+    XFORMERS_IS_AVAILBLE = os.environ.get("ATTN_XFORMERS", "enabled") == "enabled"
 except:
     XFORMERS_IS_AVAILBLE = False
     print("No module 'xformers'. Proceeding without it.")
@@ -234,7 +235,7 @@ class MemoryEfficientAttnBlock(nn.Module):
                                         kernel_size=1,
                                         stride=1,
                                         padding=0)
-        self.attention_op: Optional[Any] = None
+        self.attention_op: Optional[Any] = xformers.ops.MemoryEfficientAttentionCutlassOp if hasattr(xformers.ops, "MemoryEfficientAttentionCutlassOp") else None
 
     def forward(self, x):
         h_ = x
@@ -288,8 +289,11 @@ def make_attn(in_channels, attn_type="vanilla", attn_kwargs=None):
     elif attn_type == "vanilla-xformers":
         print(f"building MemoryEfficientAttnBlock with {in_channels} in_channels...")
         return MemoryEfficientAttnBlock(in_channels)
-    elif type == "memory-efficient-cross-attn":
-        attn_kwargs["query_dim"] = in_channels
+    elif attn_type == "memory-efficient-cross-attn":
+        if attn_kwargs is None:
+            attn_kwargs = {"query_dim": in_channels}
+        else:
+            attn_kwargs["query_dim"] = in_channels
         return MemoryEfficientCrossAttentionWrapper(**attn_kwargs)
     elif attn_type == "none":
         return nn.Identity(in_channels)
